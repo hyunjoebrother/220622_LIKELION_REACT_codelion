@@ -141,7 +141,7 @@ export const PagenumberDiv = styled.div`
   border: 1px solid #f39926;
   border-radius: 5px;
 `;
-export const Footer = styled.div`
+export const FooterDiv = styled.div`
   margin-top: 30px;
   display: flex;
   flex-direction: column;

@@ -1,51 +1,64 @@
 import React from "react";
-import { 
+import { LoadingDiv, LoadingImg } from "./styledComponent";
+import {
   PagenumberDiv,
   PagingSection,
-  PostLink,
   PostListDiv,
-  PostRepl,
   PostSection,
   PostTitle,
-  PostTitleDiv } from "./styledComponent";
+  PostTitleDiv,
+} from "./styledComponent";
 
-function ShowPostList() {
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowsRotate,
+  faPenToSquare,
+  faArrowLeft,
+  faArrowRight,
+} from "@fortawesome/free-solid-svg-icons";
+
+import loadingIcon from "./loading.svg";
+import EachPost from "./EachPost";
+
+function ShowPostList({ isPost, loading, addPost, postList }) {
   return (
-    <PostSection>
-              <PostTitleDiv>
-                <FontAwesomeIcon icon={faArrowsRotate} />
-                <PostTitle>익명게시판</PostTitle>
-                <FontAwesomeIcon icon={faPenToSquare} />
-              </PostTitleDiv>
-              <PostListDiv>
-                {loading ? (
-                  <LoadingDiv>
-                    <LoadingImg src={loadingIcon} />
-                  </LoadingDiv>
-                ) : isPost ? (
-                  <LoadingDiv>아직 글이 없습니다</LoadingDiv>
-                ) : (
-                  <ul>
-                    <EachPostLi>
-                      <div>
-                        <FontAwesomeIcon icon={faLocationPin} />
-                        <PostLink>서강확보, 시사 N 대학기자상 취재</PostLink>
-                      </div>
-                      <PostRepl>[35]</PostRepl>
-                    </EachPostLi>
-                  </ul>
-                )}
-              </PostListDiv>
-            </PostSection>
-            <PagingSection>
-              <PagenumberDiv>
-                <FontAwesomeIcon icon={faArrowLeft} />
-              </PagenumberDiv>
-              <PagenumberDiv>2</PagenumberDiv>
-              <PagenumberDiv>
-                <FontAwesomeIcon icon={faArrowRight} />
-              </PagenumberDiv>
-            </PagingSection>
+    <>
+      <PostSection>
+        <PostTitleDiv>
+          <FontAwesomeIcon onClick={addPost} icon={faArrowsRotate} />
+          <PostTitle>익명게시판</PostTitle>
+          <FontAwesomeIcon icon={faPenToSquare} />
+        </PostTitleDiv>
+        <PostListDiv>
+          {loading ? (
+            <LoadingDiv>
+              <LoadingImg src={loadingIcon} />
+            </LoadingDiv>
+          ) : isPost ? (
+            <LoadingDiv>아직 글이 없습니다</LoadingDiv>
+          ) : (
+            <ul>
+              {postList.map((element) => (
+                <EachPost
+                  key={element.id}
+                  title={element.title}
+                  replCount={element.replCount}
+                />
+              ))}
+            </ul>
+          )}
+        </PostListDiv>
+      </PostSection>
+      <PagingSection>
+        <PagenumberDiv>
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </PagenumberDiv>
+        <PagenumberDiv>2</PagenumberDiv>
+        <PagenumberDiv>
+          <FontAwesomeIcon icon={faArrowRight} />
+        </PagenumberDiv>
+      </PagingSection>
+    </>
   );
 }
 
