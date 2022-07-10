@@ -45,6 +45,7 @@ export const SubHeaderDiv = styled.div`
   font-size: 25px;
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 `;
 
 export const Main = styled.div`
@@ -155,5 +156,90 @@ export const FooterBig = styled.span`
 export const FooterSmall = styled.span`
   margin: 5px;
   font-size: 5px;
+`;
+export const CursorDiv = styled.div`
+  cursor: pointer;
+`;
+
+//ShowPost에 추가되는 스타일 컴포넌트
+export const PostReplDiv = styled.div`
+  border-top: 2px solid white;
+  margin-bottom: 15px;
+  width: 100%;
+  line-height: 24px;
+`;
+export const ReplTitleDiv = styled.div`
+  font-size: 12px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+`;
+export const ReplWriter = styled.div`
+  margin-top: 10px;
+  margin-left: 10px;
+  font-weight: bolder;
+`;
+export const Repl = styled.span`
+  font-size: 12px;
+`;
+export const WriterDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+export const ReplInput = styled.textarea`
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  height: 30px;
+  border-radius: 5px;
+  font-family: "Noto Sans KR", sans-serif;
+`;
+export const ReplSubmitDiv = styled.div`
+  width: 100px;
+  margin-top: 10px;
+  margin-left: 10px;
+  border-radius: 5px;
+  background-color: #f39926;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+`;
+
+//WritePost.jsx
+export const PostWriteDiv = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+export const TitleInput = styled.input`
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+`;
+export const ContentsInput = styled.textarea`
+  margin-top: 10px;
+  padding: 10px;
+  height: 400px;
+  border-radius: 5px;
+  font-family: "Noto Sans KR", sans-serif;
+`;
+export const PostSubmitDiv = styled.div`
+  width: 50%;
+  margin: 0px auto;
+  margin-top: 15px;
+  border-radius: 10px;
+  background-color: #f39926;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+`;
+export const PostSubmit = styled.div`
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-family: "Black Han Sans", sans-serif;
+  font-size: 20px;
 `;
 // export default MediaDiv;
