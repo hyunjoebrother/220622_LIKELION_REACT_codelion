@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { CursorDiv, LoadingDiv, LoadingImg } from "./styledComponent";
 import {
   PagenumberDiv,
@@ -34,13 +34,14 @@ function ShowPostList() {
   const [isPost, setIsPost] = useState(false);
   const [postList, setPostList] = useState([]);
 
-  const addPost = () => {
+  // useCallback 추가
+  const addPost = useCallback(() => {
     // ... 앞에 있는 postList 이후에 추가되도록
     setPostList((postList) => [
       ...postList,
-      { id: 4, title: "학보, 시사N, 대학기자상 취재", replCount: 21 },
+      { id: 4, title: "학보, 시사N, 대학기자상 취재" },
     ]);
-  };
+  }, [postList]);
 
   const navigate = useNavigate();
   const goWrite = () => {

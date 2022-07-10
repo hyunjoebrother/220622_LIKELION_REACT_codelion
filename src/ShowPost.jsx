@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import {
   PostSection,
   PostTitleDiv,
@@ -32,6 +32,42 @@ const replData = [
   { id: 3, content: `멋쟁이 사자처럼 최고!` },
 ];
 
+// 댓글 meo
+const PostAndRepl = React.memo(
+  ({ post, postLoading, repls, replCount, replLoading }) => {
+    return (
+      <>
+        {" "}
+        <PostTitleDiv>
+          <PostTitle>{post && post.title}</PostTitle>
+        </PostTitleDiv>
+        {postLoading ? (
+          <LoadingDiv>
+            <LoadingImg src={`${process.env.PUBLIC_URL}/img/loading.svg`} />
+          </LoadingDiv>
+        ) : (
+          <PostReplDiv>{post && post.contents}</PostReplDiv>
+        )}
+        {/* post contents */}
+        <ReplTitleDiv>댓글 {replCount} </ReplTitleDiv>
+        {replLoading ? (
+          <LoadingDiv>
+            <LoadingImg src={`${process.env.PUBLIC_URL}/img/loading.svg`} />
+          </LoadingDiv>
+        ) : (
+          repls &&
+          repls.map((element) => (
+            <PostReplDiv key={element.id}>
+              <ReplWriter>익명</ReplWriter>
+              <Repl>{element.content}</Repl>
+            </PostReplDiv>
+          ))
+        )}
+      </>
+    );
+  }
+);
+
 const ShowPost = () => {
   const [post, setPost] = useState(null);
   const [repls, setRepls] = useState([]);
@@ -51,6 +87,7 @@ const ShowPost = () => {
       setRepls(replData);
       setReplLoading(false);
     }, 3000);
+    replInput.current.focus();
   });
 
   //input창 상태관리
@@ -68,40 +105,21 @@ const ShowPost = () => {
   //memo hook실습
   const replCount = useMemo(() => countRepls(repls), [repls]);
 
+  // useRef - 댓글창
+  const replInput = useRef();
+
   return (
     <div>
       <PostSection>
-        <PostTitleDiv>
-          <PostTitle>{post && post.title}</PostTitle>
-        </PostTitleDiv>
-
-        {postLoading ? (
-          <LoadingDiv>
-            <LoadingImg src={`${process.env.PUBLIC_URL}/img/loading.svg`} />
-          </LoadingDiv>
-        ) : (
-          <PostReplDiv>{post && post.contents}</PostReplDiv>
-        )}
-
-        {/* post contents */}
-
-        <ReplTitleDiv>댓글 {replCount} </ReplTitleDiv>
-        {replLoading ? (
-          <LoadingDiv>
-            <LoadingImg src={`${process.env.PUBLIC_URL}/img/loading.svg`} />
-          </LoadingDiv>
-        ) : (
-          repls &&
-          repls.map((element) => (
-            <PostReplDiv key={element.id}>
-              <ReplWriter>익명</ReplWriter>
-              <Repl>{element.content}</Repl>
-            </PostReplDiv>
-          ))
-        )}
-
+        <PostAndRepl
+          post={post}
+          postLoading={postLoading}
+          replCount={replCount}
+          replLoading={replLoading}
+          repls={repls}
+        />
         <WriterDiv>
-          <ReplInput onChange={onChange} value={repl}></ReplInput>
+          <ReplInput onChange={onChange} value={repl} ref={replInput} />
           <ReplSubmitDiv>
             <span>입력</span>
           </ReplSubmitDiv>
