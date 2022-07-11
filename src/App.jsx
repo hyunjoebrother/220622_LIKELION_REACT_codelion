@@ -13,6 +13,7 @@ import { Routes, Route } from "react-router-dom";
 import ShowPost from "./ShowPost";
 import WritePost from "./WritePost";
 
+const API_URL = "https://reactapitest.pythonanywhere.com/api/";
 function App() {
   const [darkMode, setDarkMode] = useState(true);
 
@@ -25,9 +26,19 @@ function App() {
           <Main>
             <Slogun />
             <Routes>
-              <Route path="/" element={<ShowPostList />}></Route>
-              <Route path="/write" element={<WritePost />}></Route>
-              <Route path="/post/:postID" element={<ShowPost />}></Route>
+              <Route
+                exact
+                path="/"
+                element={<ShowPostList apiUrl={API_URL} />}
+              ></Route>
+              <Route
+                path="/write"
+                element={<WritePost apiUrl={API_URL} />}
+              ></Route>
+              <Route
+                path="/post/:postID"
+                element={<ShowPost apiUrl={API_URL} />}
+              ></Route>
             </Routes>
           </Main>
           <Footer />

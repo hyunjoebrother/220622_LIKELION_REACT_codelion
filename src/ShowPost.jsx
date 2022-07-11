@@ -3,8 +3,6 @@ import {
   PostSection,
   PostTitleDiv,
   PostTitle,
-  PostListDiv,
-  PagingSection,
   LoadingDiv,
   LoadingImg,
   PagenumberDiv,
@@ -18,6 +16,8 @@ import {
   ReplInput,
   ReplSubmitDiv,
 } from "./styledComponent";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const postData = {
   title: `바운스`,
@@ -57,9 +57,9 @@ const PostAndRepl = React.memo(
         ) : (
           repls &&
           repls.map((element) => (
-            <PostReplDiv key={element.id}>
+            <PostReplDiv key={element}>
               <ReplWriter>익명</ReplWriter>
-              <Repl>{element.content}</Repl>
+              <Repl>{element}</Repl>
             </PostReplDiv>
           ))
         )}
@@ -68,27 +68,40 @@ const PostAndRepl = React.memo(
   }
 );
 
-const ShowPost = () => {
+const ShowPost = ({ apiUrl }) => {
   const [post, setPost] = useState(null);
   const [repls, setRepls] = useState([]);
   const [postLoading, setPostLoading] = useState(true);
   const [replLoading, setReplLoading] = useState(true);
+  const Params = useParams();
+  const replInput = useRef();
 
-  //useEffect 2개 사용하기
   useEffect(() => {
-    setTimeout(() => {
-      setPost(postData);
+    axios.get(`${apiUrl}posts/${Params.postID}`).then((response) => {
+      console.log(response);
+      setPost(response.data);
       setPostLoading(false);
-    }, 1000);
-  });
-
-  useEffect(() => {
-    setTimeout(() => {
-      setRepls(replData);
+      setRepls(response.data.repls);
       setReplLoading(false);
-    }, 3000);
-    replInput.current.focus();
-  });
+      replInput.current.focus();
+    });
+  }, []);
+
+  //   //useEffect 2개 사용하기
+  //   useEffect(() => {
+  //     setTimeout(() => {
+  //       setPost(postData);
+  //       setPostLoading(false);
+  //     }, 1000);
+  //   });
+
+  //   useEffect(() => {
+  //     setTimeout(() => {
+  //       setRepls(replData);
+  //       setReplLoading(false);
+  //     }, 3000);
+  //     replInput.current.focus();
+  //   });
 
   //input창 상태관리
   const [repl, setRepl] = useState("");
@@ -105,8 +118,21 @@ const ShowPost = () => {
   //memo hook실습
   const replCount = useMemo(() => countRepls(repls), [repls]);
 
-  // useRef - 댓글창
-  const replInput = useRef();
+  const onSubmitRepl = () => {
+    axios
+      .post(`${apiUrl}repl/`, {
+        contents: repl,
+        post: Params.postID,
+      })
+      .then(() => {
+        // 새로고침
+        window.location.reload();
+      });
+  };
+
+  if (!Params.postID) {
+    return <PostSection>잘못된 접근입니다</PostSection>;
+  }
 
   return (
     <div>
@@ -120,7 +146,7 @@ const ShowPost = () => {
         />
         <WriterDiv>
           <ReplInput onChange={onChange} value={repl} ref={replInput} />
-          <ReplSubmitDiv>
+          <ReplSubmitDiv onClick={onSubmitRepl}>
             <span>입력</span>
           </ReplSubmitDiv>
         </WriterDiv>
